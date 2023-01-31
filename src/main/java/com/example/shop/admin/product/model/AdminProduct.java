@@ -1,20 +1,18 @@
-package com.example.shop.product.model;
+package com.example.shop.admin.product.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
-@Getter
+@Entity
+@Table(name = "product")
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-public class Product {
+@Getter
+public class AdminProduct {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
