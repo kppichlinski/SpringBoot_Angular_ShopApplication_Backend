@@ -1,5 +1,6 @@
 package com.example.shop.admin.product.model;
 
+import com.example.shop.admin.product.model.type.AdminProductCurrency;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,5 +25,7 @@ public class AdminProduct {
     private String category;
     private String description;
     private BigDecimal price;
-    private String currency;
+
+    @Enumerated(EnumType.STRING)
+    private AdminProductCurrency currency;
 }

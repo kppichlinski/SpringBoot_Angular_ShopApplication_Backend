@@ -1,14 +1,13 @@
 package com.example.shop.admin.product.controller;
 
-import com.example.shop.admin.product.dto.AdminProductDto;
 import com.example.shop.admin.product.model.AdminProduct;
+import com.example.shop.admin.product.model.dto.AdminProductDto;
 import com.example.shop.admin.product.service.AdminProductService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Locale;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,12 +28,12 @@ public class AdminProductController {
     }
 
     @PostMapping("admin/products")
-    public AdminProduct createProduct(@RequestBody AdminProductDto adminProductDto) {
+    public AdminProduct createProduct(@RequestBody @Valid AdminProductDto adminProductDto) {
         return adminProductService.createProduct(mapToAdminProduct(adminProductDto, EMPTY_ID));
     }
 
     @PutMapping("admin/products/{id}")
-    public AdminProduct updateProduct(@RequestBody AdminProductDto adminProductDto, @PathVariable Long id) {
+    public AdminProduct updateProduct(@RequestBody @Valid AdminProductDto adminProductDto, @PathVariable Long id) {
         return adminProductService.updateProduct(mapToAdminProduct(adminProductDto, id));
     }
 
@@ -45,7 +44,7 @@ public class AdminProductController {
                 .description(adminProductDto.getDescription())
                 .category(adminProductDto.getCategory())
                 .price(adminProductDto.getPrice())
-                .currency(adminProductDto.getCurrency().toUpperCase(Locale.ROOT))
+                .currency(adminProductDto.getCurrency())
                 .build();
     }
 }
