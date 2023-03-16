@@ -1,7 +1,7 @@
 package com.example.shop.user.review.controller;
 
-import com.example.shop.user.review.model.Review;
-import com.example.shop.user.review.model.dto.ReviewDto;
+import com.example.shop.user.common.model.Review;
+import com.example.shop.user.review.dto.ReviewDto;
 import com.example.shop.user.review.service.ReviewService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

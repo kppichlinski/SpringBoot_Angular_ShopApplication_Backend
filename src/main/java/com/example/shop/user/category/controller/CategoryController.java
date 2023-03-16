@@ -1,8 +1,8 @@
 package com.example.shop.user.category.controller;
 
-import com.example.shop.user.category.model.Category;
-import com.example.shop.user.category.model.dto.CategoryProductsDto;
+import com.example.shop.user.category.dto.CategoryProductsDto;
 import com.example.shop.user.category.service.CategoryService;
+import com.example.shop.user.common.model.Category;
 import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.validator.constraints.Length;

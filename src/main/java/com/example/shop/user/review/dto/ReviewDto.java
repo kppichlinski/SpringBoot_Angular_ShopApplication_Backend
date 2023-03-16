@@ -1,4 +1,4 @@
-package com.example.shop.user.review.model.dto;
+package com.example.shop.user.review.dto;
 
 import org.hibernate.validator.constraints.Length;
 

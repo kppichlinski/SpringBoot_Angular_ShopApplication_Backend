@@ -1,6 +1,5 @@
-package com.example.shop.user.product.model;
+package com.example.shop.user.common.model;
 
-import com.example.shop.user.review.model.Review;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

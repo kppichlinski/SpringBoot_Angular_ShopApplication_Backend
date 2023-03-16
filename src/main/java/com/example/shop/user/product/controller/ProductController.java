@@ -1,7 +1,7 @@
 package com.example.shop.user.product.controller;
 
-import com.example.shop.user.product.model.Product;
-import com.example.shop.user.product.model.dto.ProductListDto;
+import com.example.shop.user.common.dto.ProductListDto;
+import com.example.shop.user.common.model.Product;
 import com.example.shop.user.product.service.ProductService;
 import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;

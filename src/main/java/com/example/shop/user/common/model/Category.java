@@ -1,4 +1,4 @@
-package com.example.shop.user.category.model;
+package com.example.shop.user.common.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

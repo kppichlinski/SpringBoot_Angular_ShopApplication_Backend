@@ -1,4 +1,4 @@
-package com.example.shop.user.review.model;
+package com.example.shop.user.common.model;
 
 
 import jakarta.persistence.Entity;
