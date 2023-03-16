@@ -1,14 +1,15 @@
 package com.example.shop.user.product.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.example.shop.user.review.model.Review;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -28,4 +29,9 @@ public class Product {
     private String currency;
     private String image;
     private String slug;
+
+    @OneToMany
+    @JoinColumn(name = "productId")
+    @Fetch(FetchMode.JOIN)
+    List<Review> reviews;
 }
