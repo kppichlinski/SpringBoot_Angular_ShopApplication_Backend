@@ -1,10 +1,6 @@
-package com.example.shop.user.common.model;
+package com.example.shop.admin.review.model;
 
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,7 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Review {
+@Table(name = "review")
+public class AdminReview {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,5 +22,4 @@ public class Review {
     private String authorName;
     private String content;
     private Boolean moderated;
-
 }
