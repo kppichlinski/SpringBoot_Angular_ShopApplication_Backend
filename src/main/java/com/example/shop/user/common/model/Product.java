@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -33,6 +31,5 @@ public class Product {
 
     @OneToMany
     @JoinColumn(name = "productId")
-    @Fetch(FetchMode.JOIN)
     List<Review> reviews;
 }
