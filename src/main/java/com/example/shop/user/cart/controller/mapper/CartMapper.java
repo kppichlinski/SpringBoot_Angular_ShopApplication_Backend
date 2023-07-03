@@ -27,7 +27,7 @@ public class CartMapper {
     }
 
     private static BigDecimal sumValues(List<CartItem> items) {
-        return items.stream().map(CartMapper::calculateLineValue).reduce(BigDecimal::add).orElseThrow();
+        return items.stream().map(CartMapper::calculateLineValue).reduce(BigDecimal::add).orElse(BigDecimal.ZERO);
     }
 
     private static List<CartSummaryItemDto> mapCartItems(List<CartItem> items) {
