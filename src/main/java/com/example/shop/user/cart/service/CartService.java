@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -43,7 +44,8 @@ public class CartService {
         if (id == null || id <= 0) {
             return cartRepository.save(Cart.builder().created(LocalDateTime.now()).build());
         }
-        return cartRepository.findById(id).orElseThrow();
+        Optional<Cart> cart = cartRepository.findById(id);
+        return cart.orElseGet(() -> cartRepository.save(Cart.builder().created(LocalDateTime.now()).build()));
     }
 
     @Transactional

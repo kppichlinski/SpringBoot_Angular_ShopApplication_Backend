@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -28,7 +26,6 @@ public class Cart {
 
     @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "cartId")
-    @Fetch(FetchMode.JOIN)
     private List<CartItem> items;
 
     public void addProduct(CartItem cartItem) {
