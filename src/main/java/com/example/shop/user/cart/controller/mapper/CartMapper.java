@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public class CartMapper {
+
     public static CartSummaryDto mapToCartSummary(Cart cart) {
         return CartSummaryDto.builder()
                 .id(cart.getId())
