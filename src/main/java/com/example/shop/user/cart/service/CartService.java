@@ -21,8 +21,8 @@ public class CartService {
     private final CartRepository cartRepository;
     private final ProductRepository productRepository;
 
-    public Cart getCartWithItems(Long id) {
-        return cartRepository.findByIdWithItems(id).orElseThrow();
+    public Cart getCart(Long id) {
+        return cartRepository.findById(id).orElseThrow();
     }
 
     @Transactional
