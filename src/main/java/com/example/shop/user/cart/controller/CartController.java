@@ -17,8 +17,8 @@ public class CartController {
     private final CartService cartService;
 
     @GetMapping("/{id}")
-    public CartSummaryDto getCart(@PathVariable Long id) {
-        return CartMapper.mapToCartSummary(cartService.getCart(id));
+    public CartSummaryDto getCartWithItems(@PathVariable Long id) {
+        return CartMapper.mapToCartSummary(cartService.getCartWithItems(id));
     }
 
     @PutMapping("/{id}")
