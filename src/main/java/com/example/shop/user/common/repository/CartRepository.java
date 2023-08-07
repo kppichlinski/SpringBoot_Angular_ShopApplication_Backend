@@ -1,6 +1,6 @@
-package com.example.shop.user.cart.repository;
+package com.example.shop.user.common.repository;
 
-import com.example.shop.user.cart.model.Cart;
+import com.example.shop.user.common.model.Cart;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

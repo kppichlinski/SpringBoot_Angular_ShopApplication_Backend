@@ -3,8 +3,8 @@ package com.example.shop.user.cart.controller.mapper;
 import com.example.shop.user.cart.controller.dto.CartSummaryDto;
 import com.example.shop.user.cart.controller.dto.CartSummaryItemDto;
 import com.example.shop.user.cart.controller.dto.SummaryDto;
-import com.example.shop.user.cart.model.Cart;
-import com.example.shop.user.cart.model.CartItem;
+import com.example.shop.user.common.model.Cart;
+import com.example.shop.user.common.model.CartItem;
 import com.example.shop.user.common.model.Product;
 import com.example.shop.user.product.dto.ProductDto;
 

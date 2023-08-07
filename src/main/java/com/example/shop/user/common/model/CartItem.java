@@ -1,6 +1,5 @@
-package com.example.shop.user.cart.model;
+package com.example.shop.user.common.model;
 
-import com.example.shop.user.common.model.Product;
 import jakarta.persistence.*;
 import lombok.*;
 

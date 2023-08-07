@@ -1,10 +1,10 @@
 package com.example.shop.user.cart.service;
 
-import com.example.shop.user.cart.model.Cart;
-import com.example.shop.user.cart.model.CartItem;
 import com.example.shop.user.cart.model.dto.CartProductDto;
-import com.example.shop.user.cart.repository.CartRepository;
+import com.example.shop.user.common.model.Cart;
+import com.example.shop.user.common.model.CartItem;
 import com.example.shop.user.common.model.Product;
+import com.example.shop.user.common.repository.CartRepository;
 import com.example.shop.user.common.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

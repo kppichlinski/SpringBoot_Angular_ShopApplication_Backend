@@ -1,4 +1,4 @@
-package com.example.shop.user.cart.model;
+package com.example.shop.user.common.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

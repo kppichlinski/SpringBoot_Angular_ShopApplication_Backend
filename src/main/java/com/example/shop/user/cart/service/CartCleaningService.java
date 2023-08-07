@@ -1,8 +1,8 @@
 package com.example.shop.user.cart.service;
 
-import com.example.shop.user.cart.model.Cart;
-import com.example.shop.user.cart.repository.CartItemRepository;
-import com.example.shop.user.cart.repository.CartRepository;
+import com.example.shop.user.common.model.Cart;
+import com.example.shop.user.common.repository.CartItemRepository;
+import com.example.shop.user.common.repository.CartRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
