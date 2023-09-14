@@ -1,5 +1,7 @@
 package com.example.shop.user.order.service;
 
+import com.example.shop.user.common.mail.EmailClientService;
+import com.example.shop.user.common.mail.EmailService;
 import com.example.shop.user.common.model.Cart;
 import com.example.shop.user.common.model.CartItem;
 import com.example.shop.user.common.repository.CartItemRepository;
@@ -12,15 +14,18 @@ import com.example.shop.user.order.repository.OrderRowRepository;
 import com.example.shop.user.order.repository.PaymentRepository;
 import com.example.shop.user.order.repository.ShipmentRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class OrderService {
 
     private final OrderRepository orderRepository;
@@ -29,6 +34,7 @@ public class OrderService {
     private final CartItemRepository cartItemRepository;
     private final ShipmentRepository shipmentRepository;
     private final PaymentRepository paymentRepository;
+    private final EmailClientService emailClientService;
 
     @Transactional
     public OrderSummary placeOrder(OrderDto orderDto) {
@@ -55,6 +61,11 @@ public class OrderService {
         cartItemRepository.deleteByCartId(orderDto.getCartId());
         cartRepository.deleteById(orderDto.getCartId());
 
+        log.info("Order placed");
+
+        emailClientService.getInstance(EmailService.BEAN_NAME)
+                .send(orderDto.getEmail(), "Your order has been received", createEmailMessage(order));
+
         return OrderSummary.builder()
                 .id(newOrder.getId())
                 .placeDate(newOrder.getPlaceDate())
@@ -62,6 +73,16 @@ public class OrderService {
                 .grossValue(newOrder.getGrossValue())
                 .payment(payment)
                 .build();
+    }
+
+    private String createEmailMessage(Order order) {
+        return "Your order with id: " + order.getId() +
+                "\nOrder date: " + order.getPlaceDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")) +
+                "\nGross value: " + order.getGrossValue() + " PLN" +
+                "\n\n" +
+                "\nPayment: " + order.getPayment().getName() +
+                ((order.getPayment().getNote() != null) ? "\n" + order.getPayment().getNote() : "") +
+                "\n\nThanks for shopping.";
     }
 
     private BigDecimal calculateGrossValue(List<CartItem> items, Shipment shipment) {
