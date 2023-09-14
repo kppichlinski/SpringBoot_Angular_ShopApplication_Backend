@@ -22,8 +22,6 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDateTime placeDate;
-
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
@@ -31,8 +29,11 @@ public class Order {
     @JoinColumn(name = "orderId")
     private List<OrderRow> orderRows;
 
-    private BigDecimal grossValue;
+    @OneToOne
+    private Payment payment;
 
+    private LocalDateTime placeDate;
+    private BigDecimal grossValue;
     private String firstname;
     private String lastname;
     private String street;
@@ -40,4 +41,5 @@ public class Order {
     private String city;
     private String email;
     private String phone;
+
 }

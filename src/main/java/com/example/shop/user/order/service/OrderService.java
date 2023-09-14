@@ -4,14 +4,12 @@ import com.example.shop.user.common.model.Cart;
 import com.example.shop.user.common.model.CartItem;
 import com.example.shop.user.common.repository.CartItemRepository;
 import com.example.shop.user.common.repository.CartRepository;
-import com.example.shop.user.order.model.Order;
-import com.example.shop.user.order.model.OrderRow;
-import com.example.shop.user.order.model.OrderStatus;
-import com.example.shop.user.order.model.Shipment;
+import com.example.shop.user.order.model.*;
 import com.example.shop.user.order.model.dto.OrderDto;
 import com.example.shop.user.order.model.dto.OrderSummary;
 import com.example.shop.user.order.repository.OrderRepository;
 import com.example.shop.user.order.repository.OrderRowRepository;
+import com.example.shop.user.order.repository.PaymentRepository;
 import com.example.shop.user.order.repository.ShipmentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,11 +28,13 @@ public class OrderService {
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
     private final ShipmentRepository shipmentRepository;
+    private final PaymentRepository paymentRepository;
 
     @Transactional
     public OrderSummary placeOrder(OrderDto orderDto) {
         Cart cart = cartRepository.findById(orderDto.getCartId()).orElseThrow();
         Shipment shipment = shipmentRepository.findById(orderDto.getShipmentId()).orElseThrow();
+        Payment payment = paymentRepository.findById(orderDto.getPaymentId()).orElseThrow();
 
         Order order = Order.builder()
                 .firstname(orderDto.getFirstname())
@@ -47,6 +47,7 @@ public class OrderService {
                 .placeDate(LocalDateTime.now())
                 .orderStatus(OrderStatus.NEW)
                 .grossValue(calculateGrossValue(cart.getItems(), shipment))
+                .payment(payment)
                 .build();
         Order newOrder = orderRepository.save(order);
         saveOrderRows(cart, newOrder.getId(), shipment);
@@ -59,6 +60,7 @@ public class OrderService {
                 .placeDate(newOrder.getPlaceDate())
                 .status(newOrder.getOrderStatus())
                 .grossValue(newOrder.getGrossValue())
+                .payment(payment)
                 .build();
     }
 
