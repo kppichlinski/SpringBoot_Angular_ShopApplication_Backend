@@ -41,8 +41,32 @@ public class OrderService {
         Cart cart = cartRepository.findById(orderDto.getCartId()).orElseThrow();
         Shipment shipment = shipmentRepository.findById(orderDto.getShipmentId()).orElseThrow();
         Payment payment = paymentRepository.findById(orderDto.getPaymentId()).orElseThrow();
+        Order newOrder = orderRepository.save(createNewOrder(orderDto, cart, shipment, payment));
+        saveOrderRows(cart, newOrder.getId(), shipment);
+        clearOrderCarts(orderDto);
+        log.info("Order placed");
+        emailClientService.getInstance(EmailService.BEAN_NAME)
+                .send(newOrder.getEmail(), "Your order has been received", createEmailMessage(newOrder));
+        return createOrderSummary(newOrder, payment);
+    }
 
-        Order order = Order.builder()
+    private void clearOrderCarts(OrderDto orderDto) {
+        cartItemRepository.deleteByCartId(orderDto.getCartId());
+        cartRepository.deleteById(orderDto.getCartId());
+    }
+
+    private OrderSummary createOrderSummary(Order newOrder, Payment payment) {
+        return OrderSummary.builder()
+                .id(newOrder.getId())
+                .placeDate(newOrder.getPlaceDate())
+                .status(newOrder.getOrderStatus())
+                .grossValue(newOrder.getGrossValue())
+                .payment(payment)
+                .build();
+    }
+
+    private Order createNewOrder(OrderDto orderDto, Cart cart, Shipment shipment, Payment payment) {
+        return Order.builder()
                 .firstname(orderDto.getFirstname())
                 .lastname(orderDto.getLastname())
                 .street(orderDto.getStreet())
@@ -53,24 +77,6 @@ public class OrderService {
                 .placeDate(LocalDateTime.now())
                 .orderStatus(OrderStatus.NEW)
                 .grossValue(calculateGrossValue(cart.getItems(), shipment))
-                .payment(payment)
-                .build();
-        Order newOrder = orderRepository.save(order);
-        saveOrderRows(cart, newOrder.getId(), shipment);
-
-        cartItemRepository.deleteByCartId(orderDto.getCartId());
-        cartRepository.deleteById(orderDto.getCartId());
-
-        log.info("Order placed");
-
-        emailClientService.getInstance(EmailService.BEAN_NAME)
-                .send(orderDto.getEmail(), "Your order has been received", createEmailMessage(order));
-
-        return OrderSummary.builder()
-                .id(newOrder.getId())
-                .placeDate(newOrder.getPlaceDate())
-                .status(newOrder.getOrderStatus())
-                .grossValue(newOrder.getGrossValue())
                 .payment(payment)
                 .build();
     }

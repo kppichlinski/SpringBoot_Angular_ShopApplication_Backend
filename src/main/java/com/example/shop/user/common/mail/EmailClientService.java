@@ -11,12 +11,12 @@ import java.util.Map;
 public class EmailClientService {
 
     @Value("${app.email.fake.sender}")
-    private boolean isFake;
+    private boolean isFakeEnabled;
 
     private final Map<String, EmailSender> senderMap;
 
     public EmailSender getInstance(String beanName) {
-        if (isFake) {
+        if (isFakeEnabled) {
             return senderMap.get("fakeEmailService");
         }
         return senderMap.get(beanName);
