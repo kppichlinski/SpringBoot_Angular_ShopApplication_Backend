@@ -28,6 +28,10 @@ public class AdminOrder {
     @OneToOne
     private AdminPayment payment;
 
+    @OneToMany
+    @JoinColumn(name = "orderId")
+    private List<AdminOrderLog> orderLogs;
+
     private BigDecimal grossValue;
     private String firstname;
     private String lastname;
