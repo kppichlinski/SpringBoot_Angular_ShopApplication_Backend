@@ -31,10 +31,14 @@ public class AdminOrderStatsService {
             result.put(i, aggregateValues(i, orders));
         }
 
+        List<BigDecimal> statSales = result.values().stream().map(o -> o.sales).toList();
+        List<Long> statOrders = result.values().stream().map(o -> o.orders).toList();
         return AdminOrderStats.builder()
                 .labels(result.keySet().stream().toList())
-                .sales(result.values().stream().map(o -> o.sales).toList())
-                .orders(result.values().stream().map(o -> o.orders).toList())
+                .sales(statSales)
+                .orders(statOrders)
+                .numberOfOrders(statOrders.stream().reduce(0L, Long::sum))
+                .totalValue(statSales.stream().reduce(BigDecimal.ZERO, BigDecimal::add))
                 .build();
     }
 
@@ -50,5 +54,6 @@ public class AdminOrderStatsService {
         return new AdminOrderStatsValue(totalValue, orderCount);
     }
 
-    private record AdminOrderStatsValue(BigDecimal sales, Long orders){}
+    private record AdminOrderStatsValue(BigDecimal sales, Long orders) {
+    }
 }

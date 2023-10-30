@@ -57,6 +57,9 @@ public class AdminOrderService {
     private void processOrderStatusChange(AdminOrder adminOrder, String orderStatus) {
         AdminOrderStatus oldStatus = adminOrder.getOrderStatus();
         AdminOrderStatus newStatus = AdminOrderStatus.valueOf(orderStatus);
+        if (oldStatus == newStatus) {
+            return;
+        }
         adminOrder.setOrderStatus(newStatus);
         logStatusChange(adminOrder.getId(), oldStatus, newStatus);
         sendEmailNotification(newStatus, adminOrder);
