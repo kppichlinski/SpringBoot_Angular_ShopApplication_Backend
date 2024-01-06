@@ -32,6 +32,8 @@ public class Order {
     @OneToOne
     private Payment payment;
 
+    private Long userId;
+
     private LocalDateTime placeDate;
     private BigDecimal grossValue;
     private String firstname;
@@ -41,5 +43,4 @@ public class Order {
     private String city;
     private String email;
     private String phone;
-
 }

@@ -37,14 +37,17 @@ public class OrderService {
     private final EmailClientService emailClientService;
 
     @Transactional
-    public OrderSummary placeOrder(OrderDto orderDto) {
+    public OrderSummary placeOrder(OrderDto orderDto, Long userId) {
         Cart cart = cartRepository.findById(orderDto.getCartId()).orElseThrow();
         Shipment shipment = shipmentRepository.findById(orderDto.getShipmentId()).orElseThrow();
         Payment payment = paymentRepository.findById(orderDto.getPaymentId()).orElseThrow();
-        Order newOrder = orderRepository.save(createNewOrder(orderDto, cart, shipment, payment));
+
+        Order newOrder = createNewOrder(orderDto, cart, shipment, payment, userId);
+        orderRepository.save(newOrder);
         saveOrderRows(cart, newOrder.getId(), shipment);
         clearOrderCarts(orderDto);
         log.info("Order placed");
+
         emailClientService.getInstance(EmailService.BEAN_NAME)
                 .send(newOrder.getEmail(), "Your order has been received", createEmailMessage(newOrder));
         return createOrderSummary(newOrder, payment);
@@ -65,7 +68,7 @@ public class OrderService {
                 .build();
     }
 
-    private Order createNewOrder(OrderDto orderDto, Cart cart, Shipment shipment, Payment payment) {
+    private Order createNewOrder(OrderDto orderDto, Cart cart, Shipment shipment, Payment payment, Long userId) {
         return Order.builder()
                 .firstname(orderDto.getFirstname())
                 .lastname(orderDto.getLastname())
@@ -78,6 +81,7 @@ public class OrderService {
                 .orderStatus(OrderStatus.NEW)
                 .grossValue(calculateGrossValue(cart.getItems(), shipment))
                 .payment(payment)
+                .userId(userId)
                 .build();
     }
 
