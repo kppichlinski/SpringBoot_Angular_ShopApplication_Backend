@@ -1,5 +1,6 @@
 package com.example.shop.user.order.model;
 
+import com.example.shop.common.model.OrderStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

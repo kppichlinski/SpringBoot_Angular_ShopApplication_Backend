@@ -1,9 +1,9 @@
-package com.example.shop.admin.order.model;
+package com.example.shop.common.model;
 
 import lombok.Getter;
 
 @Getter
-public enum AdminOrderStatus {
+public enum OrderStatus {
     NEW("New"),
     PAID("Paid"),
     PROCESSING("Processing"),
@@ -14,7 +14,7 @@ public enum AdminOrderStatus {
 
     private final String value;
 
-    AdminOrderStatus(String value) {
+    OrderStatus(String value) {
         this.value = value;
     }
 }

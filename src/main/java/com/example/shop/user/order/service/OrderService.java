@@ -1,13 +1,18 @@
 package com.example.shop.user.order.service;
 
+import com.example.shop.common.model.OrderStatus;
 import com.example.shop.user.common.mail.EmailClientService;
 import com.example.shop.user.common.mail.EmailService;
 import com.example.shop.user.common.model.Cart;
 import com.example.shop.user.common.model.CartItem;
 import com.example.shop.user.common.repository.CartItemRepository;
 import com.example.shop.user.common.repository.CartRepository;
-import com.example.shop.user.order.model.*;
+import com.example.shop.user.order.model.Order;
+import com.example.shop.user.order.model.OrderRow;
+import com.example.shop.user.order.model.Payment;
+import com.example.shop.user.order.model.Shipment;
 import com.example.shop.user.order.model.dto.OrderDto;
+import com.example.shop.user.order.model.dto.OrderListDto;
 import com.example.shop.user.order.model.dto.OrderSummary;
 import com.example.shop.user.order.repository.OrderRepository;
 import com.example.shop.user.order.repository.OrderRowRepository;
@@ -122,5 +127,20 @@ public class OrderService {
                 .orderId(orderId)
                 .build();
         orderRowRepository.save(orderRow);
+    }
+
+    public List<OrderListDto> getOrdersForUser(Long userId) {
+        List<Order> orders = orderRepository.findByUserId(userId);
+        return mapToOrderListDto(orders);
+    }
+
+    private List<OrderListDto> mapToOrderListDto(List<Order> orders) {
+        return orders.stream()
+                .map(order -> new OrderListDto(
+                        order.getId(),
+                        order.getPlaceDate(),
+                        order.getOrderStatus().getValue(),
+                        order.getGrossValue()))
+                .toList();
     }
 }

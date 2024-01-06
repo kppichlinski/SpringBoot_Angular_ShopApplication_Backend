@@ -2,9 +2,9 @@ package com.example.shop.admin.order.service;
 
 import com.example.shop.admin.order.model.AdminOrder;
 import com.example.shop.admin.order.model.AdminOrderLog;
-import com.example.shop.admin.order.model.AdminOrderStatus;
 import com.example.shop.admin.order.repository.AdminOrderLogRepository;
 import com.example.shop.admin.order.repository.AdminOrderRepository;
+import com.example.shop.common.model.OrderStatus;
 import com.example.shop.user.common.mail.EmailClientService;
 import com.example.shop.user.common.mail.EmailService;
 import lombok.RequiredArgsConstructor;
@@ -55,8 +55,8 @@ public class AdminOrderService {
     }
 
     private void processOrderStatusChange(AdminOrder adminOrder, String orderStatus) {
-        AdminOrderStatus oldStatus = adminOrder.getOrderStatus();
-        AdminOrderStatus newStatus = AdminOrderStatus.valueOf(orderStatus);
+        OrderStatus oldStatus = adminOrder.getOrderStatus();
+        OrderStatus newStatus = OrderStatus.valueOf(orderStatus);
         if (oldStatus == newStatus) {
             return;
         }
@@ -65,16 +65,16 @@ public class AdminOrderService {
         sendEmailNotification(newStatus, adminOrder);
     }
 
-    private void sendEmailNotification(AdminOrderStatus orderStatus, AdminOrder adminOrder) {
-        if (AdminOrderStatus.PROCESSING.equals(orderStatus)) {
+    private void sendEmailNotification(OrderStatus orderStatus, AdminOrder adminOrder) {
+        if (OrderStatus.PROCESSING.equals(orderStatus)) {
             sendEmail(adminOrder.getEmail(),
                     "Order " + adminOrder.getId() + " changed status to: " + orderStatus.getValue(),
                     AdminOrderEmailMessage.createProcessingEmailMessage(adminOrder.getId(), orderStatus));
-        } else if (AdminOrderStatus.COMPLETED.equals(orderStatus)) {
+        } else if (OrderStatus.COMPLETED.equals(orderStatus)) {
             sendEmail(adminOrder.getEmail(),
                     "Order " + adminOrder.getId() + " has been completed.",
                     AdminOrderEmailMessage.createCompletedEmailMessage(adminOrder.getId(), orderStatus));
-        } else if (AdminOrderStatus.REFUNDED.equals(orderStatus)) {
+        } else if (OrderStatus.REFUNDED.equals(orderStatus)) {
             sendEmail(adminOrder.getEmail(),
                     "Order " + adminOrder.getId() + " changed status to: " + orderStatus.getValue(),
                     AdminOrderEmailMessage.createRefundEmailMessage(adminOrder.getId(), orderStatus));
@@ -85,7 +85,7 @@ public class AdminOrderService {
         emailClientService.getInstance(EmailService.BEAN_NAME).send(email, subject, content);
     }
 
-    private void logStatusChange(Long orderId, AdminOrderStatus oldStatus, AdminOrderStatus newStatus) {
+    private void logStatusChange(Long orderId, OrderStatus oldStatus, OrderStatus newStatus) {
         adminOrderLogRepository.save(AdminOrderLog.builder()
                 .orderId(orderId)
                 .created(LocalDateTime.now())

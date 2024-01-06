@@ -3,8 +3,8 @@ package com.example.shop.admin.order.controller;
 import com.example.shop.admin.order.controller.dto.AdminOrderDto;
 import com.example.shop.admin.order.controller.mapper.AdminOrderMapper;
 import com.example.shop.admin.order.model.AdminOrder;
-import com.example.shop.admin.order.model.AdminOrderStatus;
 import com.example.shop.admin.order.service.AdminOrderService;
+import com.example.shop.common.model.OrderStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -42,7 +42,7 @@ public class AdminOrderController {
 
     private Map<String, String> createOrderStatusesMap() {
         Map<String, String> statuses = new HashMap<>();
-        for (AdminOrderStatus status : AdminOrderStatus.values()) {
+        for (OrderStatus status : OrderStatus.values()) {
             statuses.put(status.name(), status.getValue());
         }
         return statuses;

@@ -1,5 +1,6 @@
 package com.example.shop.admin.order.model;
 
+import com.example.shop.common.model.OrderStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +20,7 @@ public class AdminOrder {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    private AdminOrderStatus orderStatus;
+    private OrderStatus orderStatus;
 
     @OneToMany
     @JoinColumn(name = "orderId")
